@@ -5,6 +5,17 @@ function calculateRoutine() {
   const experience = document.getElementById("experience").value;
   const includeAccessory = document.getElementById("includeAccessory").value === "yes";
 
+  console.log("Current Max:", currentMax);
+  console.log("Target Max:", targetMax);
+  console.log("Workout Days:", workoutDays);
+  console.log("Experience:", experience);
+  console.log("Include Accessory:", includeAccessory);
+
+  if (isNaN(currentMax) || isNaN(workoutDays)) {
+    alert("Please enter valid numbers for Current Max and Workout Days");
+    return;
+  }
+
   let routine = "";
 
   let baseVolume = 0;
