@@ -50,10 +50,14 @@ function calculateRoutine() {
       let intensity = baseVolume + (week - 1) * intensityIncrement;
       let weight = (currentMax * intensity).toFixed(2);
       routine += `<li>Day ${day}: ${sets} sets of ${reps} reps at ${weight} lbs (${(intensity * 100).toFixed(0)}% of 1RM)</li>`;
+      
       if (includeAccessory) {
         routine += "<ul>";
-        routine += "<li>Accessory 1: Lunges - 3 sets of 10 reps per leg</li>";
-        routine += "<li>Accessory 2: Planks - 3 sets of 60 seconds</li>";
+        routine += "<li>Front Rack Lunges: 3 sets of 8 reps per leg</li>";
+        routine += "<li>Goblet Squats: 3 sets of 10 reps</li>";
+        routine += "<li>Bulgarian Split Squats: 3 sets of 10 reps per leg</li>";
+        routine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
+        routine += "<li>Mobility Work: Ankle Mobility Drills and Hip Flexor Stretching</li>";
         routine += "</ul>";
       }
     }
