@@ -16,6 +16,10 @@ function calculateRoutine() {
     return;
   }
 
+  function roundToNearest5(num) {
+    return Math.round(num / 5) * 5;
+  }
+
   let routine = "";
 
   let baseVolume = 0;
@@ -48,20 +52,24 @@ function calculateRoutine() {
     routine += `<h3>Week ${week}</h3><ul>`;
     for (let day = 1; day <= workoutDays; day++) {
       let intensity = baseVolume + (week - 1) * intensityIncrement;
-      let weight = (currentMax * intensity).toFixed(2);
+      let weight = roundToNearest5(currentMax * intensity);
       routine += `<li>Day ${day}: ${sets} sets of ${reps} reps at ${weight} lbs (${(intensity * 100).toFixed(0)}% of 1RM)</li>`;
       
       if (includeAccessory) {
-        let lungeWeight = (currentMax * 0.5).toFixed(2);  // Front Rack Lunges
-        let gobletWeight = (currentMax * 0.4).toFixed(2);  // Goblet Squats
-        let splitSquatWeight = (currentMax * 0.4).toFixed(2);  // Bulgarian Split Squats
+        let lungeWeight = roundToNearest5(currentMax * 0.5);  // Front Rack Lunges
+        let gobletWeight = roundToNearest5(currentMax * 0.4);  // Goblet Squats
+        let splitSquatWeight = roundToNearest5(currentMax * 0.4);  // Bulgarian Split Squats
 
         routine += "<ul>";
         routine += `<li>Front Rack Lunges: 3 sets of 8 reps per leg with ${lungeWeight} lbs</li>`;
         routine += `<li>Goblet Squats: 3 sets of 10 reps with ${gobletWeight} lbs kettlebell/dumbbell</li>`;
         routine += `<li>Bulgarian Split Squats: 3 sets of 10 reps per leg with ${splitSquatWeight} lbs kettlebell/dumbbell</li>`;
         routine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
-        routine += "<li>Mobility Work: Ankle Mobility Drills and Hip Flexor Stretching</li>";
+        routine += "<li>Mobility Work: <ul>";
+        routine += "<li>Ankle Mobility Drills: 2 sets of 10 reps per leg (Ankle Circles, Toe Raises)</li>";
+        routine += "<li>Hip Flexor Stretching: 2 sets of 30 seconds per side (Kneeling Hip Flexor Stretch)</li>";
+        routine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
+        routine += "</ul></li>";
         routine += "</ul>";
       }
     }
