@@ -114,22 +114,39 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
           accessoryRoutine += "</ul></li>";
         } else if (type === 'bench') {
-          let inclinePressWeight = Math.min(roundToNearest5(currentMax * 0.6), 110);  // Incline Dumbbell Press or Barbell
-          let dipWeight = Math.min(roundToNearest5(currentMax * 0.4), 110);  // Tricep Dips or Barbell
-          let shoulderPressWeight = Math.min(roundToNearest5(currentMax * 0.5), 110);  // Shoulder Press or Barbell
-          let flyWeight = Math.min(roundToNearest5(currentMax * 0.3), 110);  // Chest Flyes or Barbell
+          let inclinePressWeight = roundToNearest5(currentMax * 0.6);
+          let dipWeight = roundToNearest5(currentMax * 0.4);
+          let shoulderPressWeight = roundToNearest5(currentMax * 0.5);
+          let flyWeight = roundToNearest5(currentMax * 0.3);
 
           accessoryRoutine += "<ul>";
-          accessoryRoutine += `<li>Incline Dumbbell Press: 3 sets of 10 reps with ${inclinePressWeight} lbs</li>`;
-          accessoryRoutine += `<li>Tricep Dips: 3 sets of 8 reps with ${dipWeight} lbs</li>`;
-          accessoryRoutine += `<li>Shoulder Press: 3 sets of 10 reps with ${shoulderPressWeight} lbs</li>`;
-          accessoryRoutine += `<li>Chest Flyes: 3 sets of 12 reps with ${flyWeight} lbs</li>`;
+          if (inclinePressWeight > 110) {
+            accessoryRoutine += `<li>Incline Barbell Press: 3 sets of 10 reps with ${inclinePressWeight} lbs</li>`;
+          } else {
+            accessoryRoutine += `<li>Incline Dumbbell Press: 3 sets of 10 reps with ${Math.min(inclinePressWeight, 110)} lbs</li>`;
+          }
+          if (dipWeight > 110) {
+            accessoryRoutine += `<li>Barbell Tricep Extensions: 3 sets of 8 reps with ${dipWeight} lbs</li>`;
+          } else {
+            accessoryRoutine += `<li>Tricep Dips: 3 sets of 8 reps with ${Math.min(dipWeight, 110)} lbs</li>`;
+          }
+          if (shoulderPressWeight > 110) {
+            accessoryRoutine += `<li>Barbell Shoulder Press: 3 sets of 10 reps with ${shoulderPressWeight} lbs</li>`;
+          } else {
+            accessoryRoutine += `<li>Shoulder Press: 3 sets of 10 reps with ${Math.min(shoulderPressWeight, 110)} lbs</li>`;
+          }
+          if (flyWeight > 110) {
+            accessoryRoutine += `<li>Barbell Chest Flyes: 3 sets of 12 reps with ${flyWeight} lbs</li>`;
+          } else {
+            accessoryRoutine += `<li>Chest Flyes: 3 sets of 12 reps with ${Math.min(flyWeight, 110)} lbs</li>`;
+          }
           accessoryRoutine += "<li>Core Work: 3 sets of 30 seconds (Planks or Russian Twists)</li>";
           accessoryRoutine += "<li>Mobility Work: <ul>";
           accessoryRoutine += "<li>Shoulder Mobility Drills: 2 sets of 10 reps (Shoulder Circles, Banded Pull-Aparts)</li>";
           accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
           accessoryRoutine += "</ul></li>";
         } else if (type === 'deadlift') {
+          let romanianDeadliftWeight = Math.min(roundToNearest5(currentMax * 0.6), 300);  // Romanian Deadlifts
           let romanianDeadliftWeight = Math.min(roundToNearest5(currentMax * 0.6), 300);  // Romanian Deadlifts
           let hipThrustWeight = Math.min(roundToNearest5(currentMax * 0.5), 300);  // Hip Thrusts
           let kettlebellSwingWeight = Math.min(roundToNearest5(currentMax * 0.4), 53);  // Kettlebell Swings
@@ -144,29 +161,28 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
           accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
           accessoryRoutine += "</ul></li>";
-        }
-        routine += accessoryRoutine + "</ul>";
-      }
-    }
-    routine += `</ul>`;
-  }
+          routine += accessoryRoutine + "</ul>";
+}
+}
+routine += `</ul>`;
+}
 
-  // Calculate estimated new max
-  let estimatedNewMax;
-  switch (experience) {
-    case "beginner":
-      estimatedNewMax = currentMax * 1.05; // 5% increase for beginners
-      break;
-    case "intermediate":
-      estimatedNewMax = currentMax * 1.04; // 4% increase for intermediates
-      break;
-    case "advanced":
-      estimatedNewMax = currentMax * 1.03; // 3% increase for advanced
-      break;
-  }
+// Calculate estimated new max
+let estimatedNewMax;
+switch (experience) {
+case "beginner":
+  estimatedNewMax = currentMax * 1.05; // 5% increase for beginners
+  break;
+case "intermediate":
+  estimatedNewMax = currentMax * 1.04; // 4% increase for intermediates
+  break;
+case "advanced":
+  estimatedNewMax = currentMax * 1.03; // 3% increase for advanced
+  break;
+}
 
-  estimatedNewMax = roundToNearest5(estimatedNewMax);
-  estimatedMaxElement.innerHTML = `Estimated new 1RM after 1 month: ${estimatedNewMax} lbs`;
+estimatedNewMax = roundToNearest5(estimatedNewMax);
+estimatedMaxElement.innerHTML = `Estimated new 1RM after 1 month: ${estimatedNewMax} lbs`;
 
-  routineElement.innerHTML = routine;
+routineElement.innerHTML = routine;
 }
