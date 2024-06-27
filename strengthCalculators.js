@@ -24,34 +24,33 @@ function showCalculator(type) {
 }
 
 function calculateRoutine(type) {
-  let currentMax, targetMax, workoutDays, experience, includeAccessory;
-  let routineElement;
+  let currentMax, workoutDays, experience, includeAccessory;
+  let routineElement, estimatedMaxElement;
 
   if (type === 'squat') {
     currentMax = parseFloat(document.getElementById("currentMaxSquat").value);
-    targetMax = parseFloat(document.getElementById("targetMaxSquat").value);
     workoutDays = parseInt(document.getElementById("workoutDaysSquat").value);
     experience = document.getElementById("experienceSquat").value;
     includeAccessory = document.getElementById("includeAccessorySquat").value === "yes";
     routineElement = document.getElementById("workoutRoutineSquat");
+    estimatedMaxElement = document.getElementById("estimatedMaxSquat");
   } else if (type === 'bench') {
     currentMax = parseFloat(document.getElementById("currentMaxBench").value);
-    targetMax = parseFloat(document.getElementById("targetMaxBench").value);
     workoutDays = parseInt(document.getElementById("workoutDaysBench").value);
     experience = document.getElementById("experienceBench").value;
     includeAccessory = document.getElementById("includeAccessoryBench").value === "yes";
     routineElement = document.getElementById("workoutRoutineBench");
+    estimatedMaxElement = document.getElementById("estimatedMaxBench");
   } else if (type === 'deadlift') {
     currentMax = parseFloat(document.getElementById("currentMaxDeadlift").value);
-    targetMax = parseFloat(document.getElementById("targetMaxDeadlift").value);
     workoutDays = parseInt(document.getElementById("workoutDaysDeadlift").value);
     experience = document.getElementById("experienceDeadlift").value;
     includeAccessory = document.getElementById("includeAccessoryDeadlift").value === "yes";
     routineElement = document.getElementById("workoutRoutineDeadlift");
+    estimatedMaxElement = document.getElementById("estimatedMaxDeadlift");
   }
 
   console.log("Current Max:", currentMax);
-  console.log("Target Max:", targetMax);
   console.log("Workout Days:", workoutDays);
   console.log("Experience:", experience);
   console.log("Include Accessory:", includeAccessory);
@@ -112,6 +111,7 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Ankle Mobility Drills: 2 sets of 10 reps per leg (Ankle Circles, Toe Raises)</li>";
           accessoryRoutine += "<li>Hip Flexor Stretching: 2 sets of 30 seconds per side (Kneeling Hip Flexor Stretch)</li>";
           accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
+          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
           accessoryRoutine += "</ul></li>";
         } else if (type === 'bench') {
           let inclinePressWeight = roundToNearest5(currentMax * 0.6);  // Incline Dumbbell Press
@@ -150,6 +150,23 @@ function calculateRoutine(type) {
     }
     routine += `</ul>`;
   }
+
+  // Calculate estimated new max
+  let estimatedNewMax;
+  switch (experience) {
+    case "beginner":
+      estimatedNewMax = currentMax * 1.05; // 5% increase for beginners
+      break;
+    case "intermediate":
+      estimatedNewMax = currentMax * 1.04; // 4% increase for intermediates
+      break;
+    case "advanced":
+      estimatedNewMax = currentMax * 1.03; // 3% increase for advanced
+      break;
+  }
+
+  estimatedNewMax = roundToNearest5(estimatedNewMax);
+  estimatedMaxElement.innerHTML = `Estimated new 1RM after 1 month: ${estimatedNewMax} lbs`;
 
   routineElement.innerHTML = routine;
 }
