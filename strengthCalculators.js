@@ -113,6 +113,7 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
           accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
           accessoryRoutine += "</ul></li>";
+          accessoryRoutine += "</ul>";
         } else if (type === 'bench') {
           let inclinePressWeight = roundToNearest5(currentMax * 0.6);
           let dipWeight = roundToNearest5(currentMax * 0.4);
@@ -145,40 +146,46 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Shoulder Mobility Drills: 2 sets of 10 reps (Shoulder Circles, Banded Pull-Aparts)</li>";
           accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
           accessoryRoutine += "</ul></li>";
-      } else if (type === 'deadlift') {
-  let romanianDeadliftWeight = Math.min(roundToNearest5(currentMax * 0.6), 300);  // Romanian Deadlifts
-  let hipThrustWeight = Math.min(roundToNearest5(currentMax * 0.5), 300);  // Hip Thrusts
-  let kettlebellSwingWeight = Math.min(roundToNearest5(currentMax * 0.4), 53);  // Kettlebell Swings
+          accessoryRoutine += "</ul>";
+        } else if (type === 'deadlift') {
+          let romanianDeadliftWeight = Math.min(roundToNearest5(currentMax * 0.6), 300);  // Romanian Deadlifts
+          let hipThrustWeight = Math.min(roundToNearest5(currentMax * 0.5), 300);  // Hip Thrusts
+          let kettlebellSwingWeight = Math.min(roundToNearest5(currentMax * 0.4), 53);  // Kettlebell Swings
 
-  accessoryRoutine += "<ul>";
-  accessoryRoutine += `<li>Romanian Deadlifts: 3 sets of 8 reps with ${romanianDeadliftWeight} lbs</li>`;
-  accessoryRoutine += `<li>Hip Thrusts: 3 sets of 10 reps with ${hipThrustWeight} lbs</li>`;
-  accessoryRoutine += `<li>Kettlebell Swings: 3 sets of 15 reps with ${kettlebellSwingWeight} lbs</li>`;
-  accessoryRoutine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
-  accessoryRoutine += "<li>Mobility Work: <ul>";
-  accessoryRoutine += "<li>Hip Mobility Drills: 2 sets of 10 reps per leg (Hip Circles, Leg Swings)</li>";
-  accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
-  accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
-  accessoryRoutine += "</ul></li>";
-  routine += accessoryRoutine + "</ul>";
-}
+          accessoryRoutine += "<ul>";
+          accessoryRoutine += `<li>Romanian Deadlifts: 3 sets of 8 reps with ${romanianDeadliftWeight} lbs</li>`;
+          accessoryRoutine += `<li>Hip Thrusts: 3 sets of 10 reps with ${hipThrustWeight} lbs</li>`;
+          accessoryRoutine += `<li>Kettlebell Swings: 3 sets of 15 reps with ${kettlebellSwingWeight} lbs</li>`;
+          accessoryRoutine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
+          accessoryRoutine += "<li>Mobility Work: <ul>";
+          accessoryRoutine += "<li>Hip Mobility Drills: 2 sets of 10 reps per leg (Hip Circles, Leg Swings)</li>";
+          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
+          accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
+          accessoryRoutine += "</ul></li>";
+          accessoryRoutine += "</ul>";
+        }
+        routine += accessoryRoutine;
+      }
+    }
+    routine += "</ul>";
+  }
 
-// Calculate estimated new max
-let estimatedNewMax;
-switch (experience) {
-case "beginner":
-  estimatedNewMax = currentMax * 1.05; // 5% increase for beginners
-  break;
-case "intermediate":
-  estimatedNewMax = currentMax * 1.04; // 4% increase for intermediates
-  break;
-case "advanced":
-  estimatedNewMax = currentMax * 1.03; // 3% increase for advanced
-  break;
-}
+  // Calculate estimated new max
+  let estimatedNewMax;
+  switch (experience) {
+    case "beginner":
+      estimatedNewMax = currentMax * 1.05; // 5% increase for beginners
+      break;
+    case "intermediate":
+      estimatedNewMax = currentMax * 1.04; // 4% increase for intermediates
+      break;
+    case "advanced":
+      estimatedNewMax = currentMax * 1.03; // 3% increase for advanced
+      break;
+  }
 
-estimatedNewMax = roundToNearest5(estimatedNewMax);
-estimatedMaxElement.innerHTML = `Estimated new 1RM after 1 month: ${estimatedNewMax} lbs`;
+  estimatedNewMax = roundToNearest5(estimatedNewMax);
+  estimatedMaxElement.innerHTML = `Estimated new 1RM after 1 month: ${estimatedNewMax} lbs`;
 
-routineElement.innerHTML = routine;
+  routineElement.innerHTML = routine;
 }
