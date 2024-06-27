@@ -98,9 +98,9 @@ function calculateRoutine(type) {
       if (includeAccessory) {
         let accessoryRoutine = "";
         if (type === 'squat') {
-          let lungeWeight = roundToNearest5(currentMax * 0.5);  // Front Rack Lunges
-          let gobletWeight = roundToNearest5(currentMax * 0.4);  // Goblet Squats
-          let splitSquatWeight = roundToNearest5(currentMax * 0.4);  // Bulgarian Split Squats
+          let lungeWeight = Math.min(roundToNearest5(currentMax * 0.5), 55);  // Front Rack Lunges
+          let gobletWeight = Math.min(roundToNearest5(currentMax * 0.4), 53);  // Goblet Squats
+          let splitSquatWeight = Math.min(roundToNearest5(currentMax * 0.4), 55);  // Bulgarian Split Squats
 
           accessoryRoutine += "<ul>";
           accessoryRoutine += `<li>Front Rack Lunges: 3 sets of 8 reps per leg with ${lungeWeight} lbs</li>`;
@@ -114,10 +114,10 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
           accessoryRoutine += "</ul></li>";
         } else if (type === 'bench') {
-          let inclinePressWeight = roundToNearest5(currentMax * 0.6);  // Incline Dumbbell Press
-          let dipWeight = roundToNearest5(currentMax * 0.4);  // Tricep Dips
-          let shoulderPressWeight = roundToNearest5(currentMax * 0.5);  // Shoulder Press
-          let flyWeight = roundToNearest5(currentMax * 0.3);  // Chest Flyes
+          let inclinePressWeight = Math.min(roundToNearest5(currentMax * 0.6), 55);  // Incline Dumbbell Press
+          let dipWeight = Math.min(roundToNearest5(currentMax * 0.4), 55);  // Tricep Dips
+          let shoulderPressWeight = Math.min(roundToNearest5(currentMax * 0.5), 55);  // Shoulder Press
+          let flyWeight = Math.min(roundToNearest5(currentMax * 0.3), 55);  // Chest Flyes
 
           accessoryRoutine += "<ul>";
           accessoryRoutine += `<li>Incline Dumbbell Press: 3 sets of 10 reps with ${inclinePressWeight} lbs</li>`;
@@ -130,9 +130,9 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
           accessoryRoutine += "</ul></li>";
         } else if (type === 'deadlift') {
-          let romanianDeadliftWeight = roundToNearest5(currentMax * 0.6);  // Romanian Deadlifts
-          let hipThrustWeight = roundToNearest5(currentMax * 0.5);  // Hip Thrusts
-          let kettlebellSwingWeight = roundToNearest5(currentMax * 0.4);  // Kettlebell Swings
+          let romanianDeadliftWeight = Math.min(roundToNearest5(currentMax * 0.6), 300);  // Romanian Deadlifts
+          let hipThrustWeight = Math.min(roundToNearest5(currentMax * 0.5), 300);  // Hip Thrusts
+          let kettlebellSwingWeight = Math.min(roundToNearest5(currentMax * 0.4), 53);  // Kettlebell Swings
 
           accessoryRoutine += "<ul>";
           accessoryRoutine += `<li>Romanian Deadlifts: 3 sets of 8 reps with ${romanianDeadliftWeight} lbs</li>`;
