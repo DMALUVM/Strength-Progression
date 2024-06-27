@@ -29,8 +29,6 @@
       <form id="squatForm">
         <label for="currentMaxSquat">Current Max Front Squat Weight (lbs):</label>
         <input type="number" id="currentMaxSquat" name="currentMaxSquat" required>
-        <label for="targetMaxSquat">Target Max Front Squat Weight (lbs):</label>
-        <input type="number" id="targetMaxSquat" name="targetMaxSquat">
         <label for="workoutDaysSquat">Number of Workout Days per Week:</label>
         <input type="number" id="workoutDaysSquat" name="workoutDaysSquat" required>
         <label for="experienceSquat">Training Experience:</label>
@@ -46,6 +44,8 @@
         </select>
         <input type="button" value="Calculate" onclick="calculateRoutine('squat')">
       </form>
+      <h2>Estimated New Max</h2>
+      <div id="estimatedMaxSquat"></div>
       <h2>Monthly Workout Routine</h2>
       <div id="workoutRoutineSquat"></div>
     </div>
@@ -55,8 +55,6 @@
       <form id="benchForm">
         <label for="currentMaxBench">Current Max Bench Press Weight (lbs):</label>
         <input type="number" id="currentMaxBench" name="currentMaxBench" required>
-        <label for="targetMaxBench">Target Max Bench Press Weight (lbs):</label>
-        <input type="number" id="targetMaxBench" name="targetMaxBench">
         <label for="workoutDaysBench">Number of Workout Days per Week:</label>
         <input type="number" id="workoutDaysBench" name="workoutDaysBench" required>
         <label for="experienceBench">Training Experience:</label>
@@ -72,6 +70,8 @@
         </select>
         <input type="button" value="Calculate" onclick="calculateRoutine('bench')">
       </form>
+      <h2>Estimated New Max</h2>
+      <div id="estimatedMaxBench"></div>
       <h2>Monthly Workout Routine</h2>
       <div id="workoutRoutineBench"></div>
     </div>
@@ -81,8 +81,6 @@
       <form id="deadliftForm">
         <label for="currentMaxDeadlift">Current Max Deadlift Weight (lbs):</label>
         <input type="number" id="currentMaxDeadlift" name="currentMaxDeadlift" required>
-        <label for="targetMaxDeadlift">Target Max Deadlift Weight (lbs):</label>
-        <input type="number" id="targetMaxDeadlift" name="targetMaxDeadlift">
         <label for="workoutDaysDeadlift">Number of Workout Days per Week:</label>
         <input type="number" id="workoutDaysDeadlift" name="workoutDaysDeadlift" required>
         <label for="experienceDeadlift">Training Experience:</label>
@@ -98,6 +96,8 @@
         </select>
         <input type="button" value="Calculate" onclick="calculateRoutine('deadlift')">
       </form>
+      <h2>Estimated New Max</h2>
+      <div id="estimatedMaxDeadlift"></div>
       <h2>Monthly Workout Routine</h2>
       <div id="workoutRoutineDeadlift"></div>
     </div>
