@@ -20,6 +20,13 @@ function calculateRoutine(type) {
     experience = document.getElementById("experienceBench").value;
     includeAccessory = document.getElementById("includeAccessoryBench").value === "yes";
     routineElement = document.getElementById("workoutRoutineBench");
+  } else if (type === 'deadlift') {
+    currentMax = parseFloat(document.getElementById("currentMaxDeadlift").value);
+    targetMax = parseFloat(document.getElementById("targetMaxDeadlift").value);
+    workoutDays = parseInt(document.getElementById("workoutDaysDeadlift").value);
+    experience = document.getElementById("experienceDeadlift").value;
+    includeAccessory = document.getElementById("includeAccessoryDeadlift").value === "yes";
+    routineElement = document.getElementById("workoutRoutineDeadlift");
   }
 
   console.log("Current Max:", currentMax);
@@ -99,6 +106,21 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Core Work: 3 sets of 30 seconds (Planks or Russian Twists)</li>";
           accessoryRoutine += "<li>Mobility Work: <ul>";
           accessoryRoutine += "<li>Shoulder Mobility Drills: 2 sets of 10 reps (Shoulder Circles, Banded Pull-Aparts)</li>";
+          accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
+          accessoryRoutine += "</ul></li>";
+        } else if (type === 'deadlift') {
+          let romanianDeadliftWeight = roundToNearest5(currentMax * 0.6);  // Romanian Deadlifts
+          let hipThrustWeight = roundToNearest5(currentMax * 0.5);  // Hip Thrusts
+          let kettlebellSwingWeight = roundToNearest5(currentMax * 0.4);  // Kettlebell Swings
+
+          accessoryRoutine += "<ul>";
+          accessoryRoutine += `<li>Romanian Deadlifts: 3 sets of 8 reps with ${romanianDeadliftWeight} lbs</li>`;
+          accessoryRoutine += `<li>Hip Thrusts: 3 sets of 10 reps with ${hipThrustWeight} lbs</li>`;
+          accessoryRoutine += `<li>Kettlebell Swings: 3 sets of 15 reps with ${kettlebellSwingWeight} lbs</li>`;
+          accessoryRoutine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
+          accessoryRoutine += "<li>Mobility Work: <ul>";
+          accessoryRoutine += "<li>Hip Mobility Drills: 2 sets of 10 reps per leg (Hip Circles, Leg Swings)</li>";
+          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
           accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
           accessoryRoutine += "</ul></li>";
         }
