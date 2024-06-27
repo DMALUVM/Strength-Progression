@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Advanced Front Squat Progression Calculator</title>
+  <title>Strength Progression Calculators</title>
   <style>
     body { font-family: Arial, sans-serif; }
     label, select, input { display: block; margin-top: 10px; }
-    .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+    .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; margin-bottom: 20px; }
     h1, h2 { text-align: center; }
   </style>
 </head>
@@ -13,35 +13,67 @@
   <div class="container">
     <h1>Front Squat Progression Calculator</h1>
     <form id="squatForm">
-      <label for="currentMax">Current Max Front Squat Weight (lbs):</label>
-      <input type="number" id="currentMax" name="currentMax" required>
+      <label for="currentMaxSquat">Current Max Front Squat Weight (lbs):</label>
+      <input type="number" id="currentMaxSquat" name="currentMaxSquat" required>
 
-      <label for="targetMax">Target Max Front Squat Weight (lbs):</label>
-      <input type="number" id="targetMax" name="targetMax">
+      <label for="targetMaxSquat">Target Max Front Squat Weight (lbs):</label>
+      <input type="number" id="targetMaxSquat" name="targetMaxSquat">
 
-      <label for="workoutDays">Number of Workout Days per Week:</label>
-      <input type="number" id="workoutDays" name="workoutDays" required>
+      <label for="workoutDaysSquat">Number of Workout Days per Week:</label>
+      <input type="number" id="workoutDaysSquat" name="workoutDaysSquat" required>
 
-      <label for="experience">Training Experience:</label>
-      <select id="experience" name="experience" required>
+      <label for="experienceSquat">Training Experience:</label>
+      <select id="experienceSquat" name="experienceSquat" required>
         <option value="beginner">Beginner</option>
         <option value="intermediate">Intermediate</option>
         <option value="advanced">Advanced</option>
       </select>
 
-      <label for="includeAccessory">Include Accessory Exercises:</label>
-      <select id="includeAccessory" name="includeAccessory">
+      <label for="includeAccessorySquat">Include Accessory Exercises:</label>
+      <select id="includeAccessorySquat" name="includeAccessorySquat">
         <option value="yes">Yes</option>
         <option value="no">No</option>
       </select>
 
-      <input type="button" value="Calculate" onclick="calculateRoutine()">
+      <input type="button" value="Calculate" onclick="calculateRoutine('squat')">
     </form>
 
     <h2>Monthly Workout Routine</h2>
-    <div id="workoutRoutine"></div>
+    <div id="workoutRoutineSquat"></div>
   </div>
 
-  <script src="squatCalculator.js"></script>
+  <div class="container">
+    <h1>Bench Press Progression Calculator</h1>
+    <form id="benchForm">
+      <label for="currentMaxBench">Current Max Bench Press Weight (lbs):</label>
+      <input type="number" id="currentMaxBench" name="currentMaxBench" required>
+
+      <label for="targetMaxBench">Target Max Bench Press Weight (lbs):</label>
+      <input type="number" id="targetMaxBench" name="targetMaxBench">
+
+      <label for="workoutDaysBench">Number of Workout Days per Week:</label>
+      <input type="number" id="workoutDaysBench" name="workoutDaysBench" required>
+
+      <label for="experienceBench">Training Experience:</label>
+      <select id="experienceBench" name="experienceBench" required>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+
+      <label for="includeAccessoryBench">Include Accessory Exercises:</label>
+      <select id="includeAccessoryBench" name="includeAccessoryBench">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <input type="button" value="Calculate" onclick="calculateRoutine('bench')">
+    </form>
+
+    <h2>Monthly Workout Routine</h2>
+    <div id="workoutRoutineBench"></div>
+  </div>
+
+  <script src="strengthCalculators.js"></script>
 </body>
 </html>
