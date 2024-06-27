@@ -114,10 +114,10 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
           accessoryRoutine += "</ul></li>";
         } else if (type === 'bench') {
-          let inclinePressWeight = Math.min(roundToNearest5(currentMax * 0.6), 55);  // Incline Dumbbell Press
-          let dipWeight = Math.min(roundToNearest5(currentMax * 0.4), 55);  // Tricep Dips
-          let shoulderPressWeight = Math.min(roundToNearest5(currentMax * 0.5), 55);  // Shoulder Press
-          let flyWeight = Math.min(roundToNearest5(currentMax * 0.3), 55);  // Chest Flyes
+          let inclinePressWeight = Math.min(roundToNearest5(currentMax * 0.6), 110);  // Incline Dumbbell Press or Barbell
+          let dipWeight = Math.min(roundToNearest5(currentMax * 0.4), 110);  // Tricep Dips or Barbell
+          let shoulderPressWeight = Math.min(roundToNearest5(currentMax * 0.5), 110);  // Shoulder Press or Barbell
+          let flyWeight = Math.min(roundToNearest5(currentMax * 0.3), 110);  // Chest Flyes or Barbell
 
           accessoryRoutine += "<ul>";
           accessoryRoutine += `<li>Incline Dumbbell Press: 3 sets of 10 reps with ${inclinePressWeight} lbs</li>`;
