@@ -3,14 +3,17 @@ function roundToNearest5(num) {
 }
 
 function showCalculator(type) {
+  // Hide all containers
   document.getElementById('squatContainer').style.display = 'none';
   document.getElementById('benchContainer').style.display = 'none';
   document.getElementById('deadliftContainer').style.display = 'none';
 
+  // Remove active class from all buttons
   document.getElementById('navSquat').classList.remove('active');
   document.getElementById('navBench').classList.remove('active');
   document.getElementById('navDeadlift').classList.remove('active');
 
+  // Show the selected container and set the button to active
   document.getElementById(`${type}Container`).style.display = 'block';
   document.getElementById(`nav${type.charAt(0).toUpperCase() + type.slice(1)}`).classList.add('active');
 }
@@ -176,7 +179,19 @@ function calculateEstimatedNewMax(currentMax, experience) {
   return roundToNearest5(currentMax * (1 + increase));
 }
 
-// Call this function when the page loads to show the default calculator
+// Initialize the page and add event listeners
 window.onload = function() {
   showCalculator('squat');
+  
+  document.getElementById('navSquat').addEventListener('click', function() {
+    showCalculator('squat');
+  });
+  
+  document.getElementById('navBench').addEventListener('click', function() {
+    showCalculator('bench');
+  });
+  
+  document.getElementById('navDeadlift').addEventListener('click', function() {
+    showCalculator('deadlift');
+  });
 };
