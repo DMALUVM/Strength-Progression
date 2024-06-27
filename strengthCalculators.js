@@ -2,6 +2,27 @@ function roundToNearest5(num) {
   return Math.round(num / 5) * 5;
 }
 
+function showCalculator(type) {
+  document.getElementById('squatContainer').style.display = 'none';
+  document.getElementById('benchContainer').style.display = 'none';
+  document.getElementById('deadliftContainer').style.display = 'none';
+
+  document.getElementById('navSquat').classList.remove('active');
+  document.getElementById('navBench').classList.remove('active');
+  document.getElementById('navDeadlift').classList.remove('active');
+
+  if (type === 'squat') {
+    document.getElementById('squatContainer').style.display = 'block';
+    document.getElementById('navSquat').classList.add('active');
+  } else if (type === 'bench') {
+    document.getElementById('benchContainer').style.display = 'block';
+    document.getElementById('navBench').classList.add('active');
+  } else if (type === 'deadlift') {
+    document.getElementById('deadliftContainer').style.display = 'block';
+    document.getElementById('navDeadlift').classList.add('active');
+  }
+}
+
 function calculateRoutine(type) {
   let currentMax, targetMax, workoutDays, experience, includeAccessory;
   let routineElement;
@@ -120,15 +141,15 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
           accessoryRoutine += "<li>Mobility Work: <ul>";
           accessoryRoutine += "<li>Hip Mobility Drills: 2 sets of 10 reps per leg (Hip Circles, Leg Swings)</li>";
-          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
-          accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
-          accessoryRoutine += "</ul></li>";
-        }
-        routine += accessoryRoutine + "</ul>";
-      }
-    }
-    routine += `</ul>`;
-  }
+          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)”;
+accessoryRoutine += “Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)”;
+accessoryRoutine += “”;
+}
+routine += accessoryRoutine + “”;
+}
+}
+routine += </ul>;
+}
 
-  routineElement.innerHTML = routine;
+routineElement.innerHTML = routine;
 }
