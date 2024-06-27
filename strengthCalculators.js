@@ -141,15 +141,15 @@ function calculateRoutine(type) {
           accessoryRoutine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
           accessoryRoutine += "<li>Mobility Work: <ul>";
           accessoryRoutine += "<li>Hip Mobility Drills: 2 sets of 10 reps per leg (Hip Circles, Leg Swings)</li>";
-          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)”;
-accessoryRoutine += “Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)”;
-accessoryRoutine += “”;
-}
-routine += accessoryRoutine + “”;
-}
-}
-routine += </ul>;
-}
+          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
+          accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
+          accessoryRoutine += "</ul></li>";
+        }
+        routine += accessoryRoutine + "</ul>";
+      }
+    }
+    routine += `</ul>`;
+  }
 
-routineElement.innerHTML = routine;
+  routineElement.innerHTML = routine;
 }
