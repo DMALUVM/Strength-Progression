@@ -189,3 +189,8 @@ function calculateRoutine(type) {
 
   routineElement.innerHTML = routine;
 }
+
+// Call this function when the page loads to show the default calculator
+window.onload = function() {
+  showCalculator('squat');
+};
