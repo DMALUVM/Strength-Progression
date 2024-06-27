@@ -11,183 +11,169 @@ function showCalculator(type) {
   document.getElementById('navBench').classList.remove('active');
   document.getElementById('navDeadlift').classList.remove('active');
 
-  if (type === 'squat') {
-    document.getElementById('squatContainer').style.display = 'block';
-    document.getElementById('navSquat').classList.add('active');
-  } else if (type === 'bench') {
-    document.getElementById('benchContainer').style.display = 'block';
-    document.getElementById('navBench').classList.add('active');
-  } else if (type === 'deadlift') {
-    document.getElementById('deadliftContainer').style.display = 'block';
-    document.getElementById('navDeadlift').classList.add('active');
-  }
+  document.getElementById(`${type}Container`).style.display = 'block';
+  document.getElementById(`nav${type.charAt(0).toUpperCase() + type.slice(1)}`).classList.add('active');
 }
 
 function calculateRoutine(type) {
-  let currentMax, workoutDays, experience, includeAccessory;
-  let routineElement, estimatedMaxElement;
-
-  if (type === 'squat') {
-    currentMax = parseFloat(document.getElementById("currentMaxSquat").value);
-    workoutDays = parseInt(document.getElementById("workoutDaysSquat").value);
-    experience = document.getElementById("experienceSquat").value;
-    includeAccessory = document.getElementById("includeAccessorySquat").value === "yes";
-    routineElement = document.getElementById("workoutRoutineSquat");
-    estimatedMaxElement = document.getElementById("estimatedMaxSquat");
-  } else if (type === 'bench') {
-    currentMax = parseFloat(document.getElementById("currentMaxBench").value);
-    workoutDays = parseInt(document.getElementById("workoutDaysBench").value);
-    experience = document.getElementById("experienceBench").value;
-    includeAccessory = document.getElementById("includeAccessoryBench").value === "yes";
-    routineElement = document.getElementById("workoutRoutineBench");
-    estimatedMaxElement = document.getElementById("estimatedMaxBench");
-  } else if (type === 'deadlift') {
-    currentMax = parseFloat(document.getElementById("currentMaxDeadlift").value);
-    workoutDays = parseInt(document.getElementById("workoutDaysDeadlift").value);
-    experience = document.getElementById("experienceDeadlift").value;
-    includeAccessory = document.getElementById("includeAccessoryDeadlift").value === "yes";
-    routineElement = document.getElementById("workoutRoutineDeadlift");
-    estimatedMaxElement = document.getElementById("estimatedMaxDeadlift");
-  }
-
-  console.log("Current Max:", currentMax);
-  console.log("Workout Days:", workoutDays);
-  console.log("Experience:", experience);
-  console.log("Include Accessory:", includeAccessory);
+  const currentMax = parseFloat(document.getElementById(`currentMax${type.charAt(0).toUpperCase() + type.slice(1)}`).value);
+  const workoutDays = parseInt(document.getElementById(`workoutDays${type.charAt(0).toUpperCase() + type.slice(1)}`).value);
+  const experience = document.getElementById(`experience${type.charAt(0).toUpperCase() + type.slice(1)}`).value;
+  const includeAccessory = document.getElementById(`includeAccessory${type.charAt(0).toUpperCase() + type.slice(1)}`).value === "yes";
+  const routineElement = document.getElementById(`workoutRoutine${type.charAt(0).toUpperCase() + type.slice(1)}`);
+  const estimatedMaxElement = document.getElementById(`estimatedMax${type.charAt(0).toUpperCase() + type.slice(1)}`);
 
   if (isNaN(currentMax) || isNaN(workoutDays)) {
     alert("Please enter valid numbers for Current Max and Workout Days");
     return;
   }
 
+  const routine = generatePeriodizedRoutine(type, currentMax, workoutDays, experience);
+  const accessoryWork = includeAccessory ? generateAccessoryWork(type, experience) : '';
+  const estimatedNewMax = calculateEstimatedNewMax(currentMax, experience);
+
+  routineElement.innerHTML = routine + accessoryWork;
+  estimatedMaxElement.innerHTML = `Estimated new 1RM after 9 weeks: ${estimatedNewMax} lbs`;
+}
+
+function generatePeriodizedRoutine(type, currentMax, workoutDays, experience) {
+  const phases = [
+    { name: 'Hypertrophy', weeks: 3, intensity: 0.7, volumeMultiplier: 1.2 },
+    { name: 'Strength', weeks: 3, intensity: 0.85, volumeMultiplier: 1 },
+    { name: 'Power', weeks: 2, intensity: 0.9, volumeMultiplier: 0.8 },
+    { name: 'Deload', weeks: 1, intensity: 0.6, volumeMultiplier: 0.7 }
+  ];
+  
   let routine = "";
-
-  let baseVolume = 0;
-  let intensityIncrement = 0;
-  let sets = 0;
-  let reps = 0;
-
-  switch (experience) {
-    case "beginner":
-      baseVolume = 0.7;
-      intensityIncrement = 0.02;
-      sets = 3;
-      reps = 5;
-      break;
-    case "intermediate":
-      baseVolume = 0.75;
-      intensityIncrement = 0.025;
-      sets = 4;
-      reps = 5;
-      break;
-    case "advanced":
-      baseVolume = 0.8;
-      intensityIncrement = 0.03;
-      sets = 5;
-      reps = 3;
-      break;
-  }
-
-  for (let week = 1; week <= 4; week++) {
-    routine += `<h3>Week ${week}</h3><ul>`;
-    for (let day = 1; day <= workoutDays; day++) {
-      let intensity = baseVolume + (week - 1) * intensityIncrement;
-      let weight = roundToNearest5(currentMax * intensity);
-      routine += `<li>Day ${day}: ${sets} sets of ${reps} reps at ${weight} lbs (${(intensity * 100).toFixed(0)}% of 1RM)</li>`;
-      
-      if (includeAccessory) {
-        let accessoryRoutine = "";
-        if (type === 'squat') {
-          let lungeWeight = Math.min(roundToNearest5(currentMax * 0.5), 55);  // Front Rack Lunges
-          let gobletWeight = Math.min(roundToNearest5(currentMax * 0.4), 53);  // Goblet Squats
-          let splitSquatWeight = Math.min(roundToNearest5(currentMax * 0.4), 55);  // Bulgarian Split Squats
-
-          accessoryRoutine += "<ul>";
-          accessoryRoutine += `<li>Front Rack Lunges: 3 sets of 8 reps per leg with ${lungeWeight} lbs</li>`;
-          accessoryRoutine += `<li>Goblet Squats: 3 sets of 10 reps with ${gobletWeight} lbs kettlebell/dumbbell</li>`;
-          accessoryRoutine += `<li>Bulgarian Split Squats: 3 sets of 10 reps per leg with ${splitSquatWeight} lbs kettlebell/dumbbell</li>`;
-          accessoryRoutine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
-          accessoryRoutine += "<li>Mobility Work: <ul>";
-          accessoryRoutine += "<li>Ankle Mobility Drills: 2 sets of 10 reps per leg (Ankle Circles, Toe Raises)</li>";
-          accessoryRoutine += "<li>Hip Flexor Stretching: 2 sets of 30 seconds per side (Kneeling Hip Flexor Stretch)</li>";
-          accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
-          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
-          accessoryRoutine += "</ul></li>";
-          accessoryRoutine += "</ul>";
-        } else if (type === 'bench') {
-          let inclinePressWeight = roundToNearest5(currentMax * 0.6);
-          let dipWeight = roundToNearest5(currentMax * 0.4);
-          let shoulderPressWeight = roundToNearest5(currentMax * 0.5);
-          let flyWeight = roundToNearest5(currentMax * 0.3);
-
-          accessoryRoutine += "<ul>";
-          if (inclinePressWeight > 110) {
-            accessoryRoutine += `<li>Incline Barbell Press: 3 sets of 10 reps with ${inclinePressWeight} lbs</li>`;
-          } else {
-            accessoryRoutine += `<li>Incline Dumbbell Press: 3 sets of 10 reps with ${Math.min(inclinePressWeight, 110)} lbs</li>`;
-          }
-          if (dipWeight > 110) {
-            accessoryRoutine += `<li>Barbell Tricep Extensions: 3 sets of 8 reps with ${dipWeight} lbs</li>`;
-          } else {
-            accessoryRoutine += `<li>Tricep Dips: 3 sets of 8 reps with ${Math.min(dipWeight, 110)} lbs</li>`;
-          }
-          if (shoulderPressWeight > 110) {
-            accessoryRoutine += `<li>Barbell Shoulder Press: 3 sets of 10 reps with ${shoulderPressWeight} lbs</li>`;
-          } else {
-            accessoryRoutine += `<li>Shoulder Press: 3 sets of 10 reps with ${Math.min(shoulderPressWeight, 110)} lbs</li>`;
-          }
-          if (flyWeight > 110) {
-            accessoryRoutine += `<li>Barbell Chest Flyes: 3 sets of 12 reps with ${flyWeight} lbs</li>`;
-          } else {
-            accessoryRoutine += `<li>Chest Flyes: 3 sets of 12 reps with ${Math.min(flyWeight, 110)} lbs</li>`;
-          }
-          accessoryRoutine += "<li>Core Work: 3 sets of 30 seconds (Planks or Russian Twists)</li>";
-          accessoryRoutine += "<li>Mobility Work: <ul>";
-          accessoryRoutine += "<li>Shoulder Mobility Drills: 2 sets of 10 reps (Shoulder Circles, Banded Pull-Aparts)</li>";
-          accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
-          accessoryRoutine += "</ul></li>";
-          accessoryRoutine += "</ul>";
-        } else if (type === 'deadlift') {
-          let romanianDeadliftWeight = Math.min(roundToNearest5(currentMax * 0.6), 300);  // Romanian Deadlifts
-          let hipThrustWeight = Math.min(roundToNearest5(currentMax * 0.5), 300);  // Hip Thrusts
-          let kettlebellSwingWeight = Math.min(roundToNearest5(currentMax * 0.4), 53);  // Kettlebell Swings
-
-          accessoryRoutine += "<ul>";
-          accessoryRoutine += `<li>Romanian Deadlifts: 3 sets of 8 reps with ${romanianDeadliftWeight} lbs</li>`;
-          accessoryRoutine += `<li>Hip Thrusts: 3 sets of 10 reps with ${hipThrustWeight} lbs</li>`;
-          accessoryRoutine += `<li>Kettlebell Swings: 3 sets of 15 reps with ${kettlebellSwingWeight} lbs</li>`;
-          accessoryRoutine += "<li>Core Work: 3 sets of 10 reps (Hanging Leg Raises or Ab Wheel Rollouts)</li>";
-          accessoryRoutine += "<li>Mobility Work: <ul>";
-          accessoryRoutine += "<li>Hip Mobility Drills: 2 sets of 10 reps per leg (Hip Circles, Leg Swings)</li>";
-          accessoryRoutine += "<li>Hamstring Stretching: 2 sets of 30 seconds per side (Standing Toe Touch)</li>";
-          accessoryRoutine += "<li>Thoracic Spine Mobility: 2 sets of 10 reps (Cat-Cow Stretch, Thoracic Rotations)</li>";
-          accessoryRoutine += "</ul></li>";
-          accessoryRoutine += "</ul>";
-        }
-        routine += accessoryRoutine;
-      }
+  let weekCounter = 1;
+  
+  for (const phase of phases) {
+    routine += `<h3>${phase.name} Phase</h3>`;
+    for (let week = 1; week <= phase.weeks; week++) {
+      routine += generateWeeklyRoutine(type, currentMax, workoutDays, experience, phase, weekCounter);
+      weekCounter++;
     }
-    routine += "</ul>";
   }
+  
+  return routine;
+}
 
-  // Calculate estimated new max
-  let estimatedNewMax;
+function generateWeeklyRoutine(type, currentMax, workoutDays, experience, phase, weekCounter) {
+  let weeklyRoutine = `<h4>Week ${weekCounter}</h4><ul>`;
+  const exerciseVariation = getExerciseVariation(type, weekCounter);
+  
+  for (let day = 1; day <= workoutDays; day++) {
+    const baseWeight = currentMax * phase.intensity;
+    const adjustedWeight = calculateProgressiveOverload(baseWeight, weekCounter, phase);
+    const workingSets = getWorkingSets(experience, phase);
+    
+    weeklyRoutine += `<li>Day ${day}: ${exerciseVariation}<ul>`;
+    weeklyRoutine += generateWarmupSets(adjustedWeight);
+    weeklyRoutine += `<li>Working sets: ${workingSets.sets} sets of ${workingSets.reps} reps at ${roundToNearest5(adjustedWeight)} lbs</li>`;
+    weeklyRoutine += "</ul></li>";
+  }
+  
+  weeklyRoutine += "</ul>";
+  return weeklyRoutine;
+}
+
+function calculateProgressiveOverload(baseWeight, week, phase) {
+  let progression = 0;
+  switch (phase.name) {
+    case 'Hypertrophy':
+      progression = baseWeight * 0.02 * week;
+      break;
+    case 'Strength':
+      progression = baseWeight * 0.015 * week;
+      break;
+    case 'Power':
+      progression = baseWeight * 0.01 * week;
+      break;
+    case 'Deload':
+      progression = -baseWeight * 0.1;
+      break;
+  }
+  return baseWeight + progression;
+}
+
+const exerciseVariations = {
+  squat: ['Back Squat', 'Front Squat', 'Box Squat', 'Pause Squat'],
+  bench: ['Flat Bench Press', 'Incline Bench Press', 'Close-Grip Bench Press', 'Paused Bench Press'],
+  deadlift: ['Conventional Deadlift', 'Sumo Deadlift', 'Deficit Deadlift', 'Romanian Deadlift']
+};
+
+function getExerciseVariation(type, week) {
+  return exerciseVariations[type][week % exerciseVariations[type].length];
+}
+
+function generateWarmupSets(workingWeight) {
+  const warmupSets = [
+    { percentage: 0.5, reps: 5 },
+    { percentage: 0.6, reps: 4 },
+    { percentage: 0.7, reps: 3 },
+    { percentage: 0.8, reps: 2 },
+    { percentage: 0.9, reps: 1 }
+  ];
+  
+  let warmup = "<li>Warm-up sets:<ul>";
+  for (const set of warmupSets) {
+    const weight = roundToNearest5(workingWeight * set.percentage);
+    warmup += `<li>${set.reps} reps at ${weight} lbs</li>`;
+  }
+  warmup += "</ul></li>";
+  return warmup;
+}
+
+function getWorkingSets(experience, phase) {
+  let sets, reps;
   switch (experience) {
-    case "beginner":
-      estimatedNewMax = currentMax * 1.05; // 5% increase for beginners
+    case 'beginner':
+      sets = 3;
+      reps = phase.name === 'Hypertrophy' ? 8 : 5;
       break;
-    case "intermediate":
-      estimatedNewMax = currentMax * 1.04; // 4% increase for intermediates
+    case 'intermediate':
+      sets = 4;
+      reps = phase.name === 'Hypertrophy' ? 8 : 5;
       break;
-    case "advanced":
-      estimatedNewMax = currentMax * 1.03; // 3% increase for advanced
+    case 'advanced':
+      sets = 5;
+      reps = phase.name === 'Hypertrophy' ? 8 : 3;
       break;
   }
+  return { sets, reps };
+}
 
-  estimatedNewMax = roundToNearest5(estimatedNewMax);
-  estimatedMaxElement.innerHTML = `Estimated new 1RM after 1 month: ${estimatedNewMax} lbs`;
+function generateAccessoryWork(type, experience) {
+  const accessoryExercises = {
+    squat: ['Bulgarian Split Squats', 'Leg Press', 'Hip Thrusts', 'Lunges'],
+    bench: ['Dumbbell Press', 'Tricep Extensions', 'Rows', 'Face Pulls'],
+    deadlift: ['Good Mornings', 'Pull-ups', 'Farmer's Walks', 'Back Extensions']
+  };
+  
+  let accessoryRoutine = "<h4>Accessory Work</h4><ul>";
+  for (const exercise of accessoryExercises[type]) {
+    const sets = experience === 'beginner' ? 2 : 3;
+    const reps = experience === 'advanced' ? '8-10' : '10-12';
+    accessoryRoutine += `<li>${exercise}: ${sets} sets of ${reps} reps</li>`;
+  }
+  accessoryRoutine += "</ul>";
+  return accessoryRoutine;
+}
 
-  routineElement.innerHTML = routine;
+function calculateEstimatedNewMax(currentMax, experience) {
+  let increase;
+  switch (experience) {
+    case 'beginner':
+      increase = 0.10; // 10% increase for beginners
+      break;
+    case 'intermediate':
+      increase = 0.07; // 7% increase for intermediates
+      break;
+    case 'advanced':
+      increase = 0.05; // 5% increase for advanced
+      break;
+  }
+  return roundToNearest5(currentMax * (1 + increase));
 }
 
 // Call this function when the page loads to show the default calculator
